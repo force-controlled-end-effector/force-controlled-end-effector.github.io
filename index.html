@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>Force-Controlled End-Effector · Siyue Yao</title>
+  <meta name="description" content="An end-effector for robotic grinding: three pre-bent spring-steel beams make the contact force, give way to uneven surfaces and, through strain gauges, sense the force they make. It holds a set force on flat, wavy, sloped and vertical surfaces and steadies the force in grinding.">
+  <meta name="citation_title" content="Design of a Novel Force-Controlled End-Effector With Passive Structural Compliance and Intrinsic Contact Sensing">
+  <meta name="citation_author" content="Tianyi Yan">
+  <meta name="citation_author" content="Jianhuan Chen">
+  <meta name="citation_author" content="Siyue Yao">
+  <meta name="citation_author" content="Xuyang Duan">
+  <meta name="citation_author" content="Yanjun Wang">
+  <meta name="citation_author" content="Hao Wang">
+  <meta name="citation_author" content="Genliang Chen">
+  <meta name="citation_publication_date" content="2025/10/30">
+  <meta name="citation_journal_title" content="IEEE Transactions on Automation Science and Engineering">
+  <meta name="citation_volume" content="22">
+  <meta name="citation_firstpage" content="23202">
+  <meta name="citation_lastpage" content="23213">
+  <meta name="citation_publisher" content="IEEE">
+  <meta name="citation_doi" content="10.1109/TASE.2025.3627234">
+  <meta property="og:title" content="Force-Controlled End-Effector">
+  <meta property="og:description" content="Pre-bent spring-steel beams with strain gauges make, absorb and sense the contact force of a grinding end-effector.">
+  <meta property="og:image" content="https://force-controlled-end-effector.github.io/hero.jpg">
+  <meta property="og:url" content="https://force-controlled-end-effector.github.io/">
+  <link rel="canonical" href="https://force-controlled-end-effector.github.io/">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23131312'/%3E%3Ctext x='32' y='44' text-anchor='middle' fill='%23ebe8e1' font-family='Georgia' font-size='36'%3ES%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,400&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,400&display=swap"></noscript>
+  <style>
+/* Shared styles for Siyue Yao's project pages.
+   Distilled from the Compliant Wrist, Fluorescent Whisker, FBG Whisker and UMI-Underwater pages:
+   a black opening, light reading sections, and Newsreader italics as the serif accent.
+   Each page sets --accent and --accent-hero on <body>. */
+:root {
+  --ink: #242523;
+  --muted: #6d7069;
+  --line: #e3e5df;
+  --wash: #f7f8f5;
+  --accent: #80611e;
+  --accent-hero: #efc985;
+  --max: 1040px;
+  --read: 800px;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body { margin: 0; background: #fff; color: var(--ink); font: 17px/1.75 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-underline-offset: 4px; text-decoration-color: #b4b8ac; }
+a:hover { color: var(--accent); }
+button { font: inherit; cursor: pointer; }
+a, button, summary { -webkit-tap-highlight-color: transparent; }
+a:focus-visible, button:focus-visible, summary:focus-visible, pre:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+img, video { display: block; max-width: 100%; height: auto; }
+video { width: 100%; background: #090b08; }
+h1, h2, h3, h4, p, figure { margin: 0; }
+h1, h2, h3, h4 { line-height: 1.2; letter-spacing: -0.035em; }
+p + p { margin-top: 18px; }
+sup { font-size: 0.65em; line-height: 0; vertical-align: super; }
+strong { font-weight: 600; }
+[hidden] { display: none !important; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; top: -80px; left: 20px; z-index: 40; padding: 8px 15px; background: #fff; color: var(--ink); }
+.skip:focus { top: 10px; }
+
+/* ---------- Opening (both styles) ---------- */
+.hero { position: relative; background: #000; color: #f4f4f1; }
+.hero-nav { position: absolute; inset: 0 0 auto; z-index: 3; display: flex; justify-content: flex-end; gap: 20px; padding: 22px 5vw; font-size: 13px; line-height: 24px; }
+.hero-nav a { color: #efefed; text-decoration: none; }
+.hero-nav a:hover { color: var(--accent-hero); }
+.eyebrow { margin-bottom: 18px; font-size: 11px; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; color: var(--accent); }
+.hero .eyebrow { color: var(--accent-hero); }
+.hero h1 { font-weight: 600; letter-spacing: -0.045em; text-wrap: balance; }
+.title-main { display: block; font-size: clamp(40px, 4.4vw, 72px); line-height: 1.04; }
+.title-detail { display: block; margin-top: 18px; font-size: clamp(18px, 1.5vw, 23px); font-weight: 400; line-height: 1.4; letter-spacing: -0.01em; color: #e6e6e2; }
+.hero-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; font-size: 12px; line-height: 1.7; color: #d1d1ce; }
+.hero-foot p { margin: 0; }
+.hero-foot a { color: inherit; }
+.motion { flex-shrink: 0; padding: 4px 12px; border: 1px solid #cccec7; border-radius: 20px; background: transparent; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.motion:hover { border-color: var(--ink); color: var(--ink); }
+.hero .motion { border-color: #888; background: #0006; color: #eee; }
+.hero .motion:hover { border-color: #fff; color: #fff; }
+.hero a:focus-visible, .hero button:focus-visible { outline-color: var(--accent-hero); }
+
+/* Full-screen opening: the clip covers the first screen; the title sits over a quiet area.
+   .is-split keeps the clip on the left 64% and fades it into black under the title. */
+.hero--cover .hero-frame { position: relative; isolation: isolate; height: 100svh; min-height: 640px; overflow: hidden; }
+.hero--cover .hero-media { position: absolute; inset: 0; z-index: -2; background: #000; }
+.hero--cover .hero-media video { width: 100%; height: 100%; object-fit: cover; object-position: var(--hero-pos, 50% 50%); background: #000; }
+.hero--cover .hero-frame::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(180deg, rgba(0, 0, 0, 0.38), transparent 26%, transparent 70%, rgba(0, 0, 0, 0.62)); }
+.hero--cover .hero-heading { position: absolute; top: clamp(84px, 11svh, 124px); right: 5vw; width: min(44vw, 780px); text-shadow: 0 2px 16px #000b; }
+.hero--cover.is-split .hero-media { right: 36%; }
+.hero--cover.is-split .hero-media::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, transparent 62%, #000); }
+.hero--cover.is-split .hero-heading { width: min(32vw, 560px); }
+.hero--cover .hero-foot { position: absolute; left: 5vw; right: 5vw; bottom: 24px; }
+.hero-explore { position: absolute; bottom: 26px; left: 50%; z-index: 1; display: inline-flex; align-items: center; gap: 24px; padding-bottom: 7px; transform: translateX(-50%); border-bottom: 1px solid #aaa; color: #fff; font-size: 13px; text-decoration: none; }
+.hero-explore:hover { border-color: var(--accent-hero); color: var(--accent-hero); }
+
+/* Framed opening: title on black, the clip below at no more than its own width. */
+.hero--stage { padding: 82px 24px 0; }
+.hero--stage .hero-heading { max-width: 980px; margin: 0 auto; text-align: center; }
+.hero--stage .title-main { font-size: clamp(34px, 3.6vw, 54px); line-height: 1.1; }
+.hero-stage-media { position: relative; width: 100%; max-width: min(var(--max), var(--media-w, var(--max))); margin: 34px auto 0; }
+.hero-stage-media::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, #000, transparent 5%, transparent 95%, #000), linear-gradient(180deg, #000, transparent 8%, transparent 92%, #000); }
+.hero-stage-media.is-light::after { display: none; }
+.hero-stage-media.is-light video { outline: 1px solid #ffffff2e; }
+.hero--stage .hero-foot { max-width: min(var(--max), var(--media-w, var(--max))); margin: 12px auto 0; }
+
+/* Authors band under either opening */
+.hero-meta { max-width: 1100px; margin: 0 auto; padding: 36px 24px 44px; text-align: center; }
+.authors { margin: 0 auto; font-size: 16px; line-height: 1.85; }
+.authors a { text-decoration: none; }
+.hero .authors a:hover { color: #fff; text-decoration: underline; }
+.affiliations { margin-top: 10px; font-size: 14px; color: #c0c0bd; }
+.venue { margin-top: 10px; font-size: 13px; font-style: italic; color: #aaa; }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 24px; }
+.button { display: inline-flex; align-items: center; gap: 16px; padding: 9px 20px; border: 1px solid #555; border-radius: 24px; background: #151515; color: #eee; font-size: 13px; line-height: 1.5; text-decoration: none; }
+.button:first-child { border-color: #f4f4f1; background: #f4f4f1; color: #20211e; }
+.button:hover { border-color: #ddd; background: #252525; color: #fff; }
+.button:first-child:hover { background: #fff; color: #000; }
+
+/* ---------- Page body ---------- */
+.section-nav { position: sticky; top: 0; z-index: 20; display: flex; justify-content: center; gap: 26px; overflow-x: auto; padding: 16px 24px; border-block: 1px solid var(--line); background: #ffffffed; -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); scrollbar-width: none; }
+.section-nav::-webkit-scrollbar { display: none; }
+.section-nav a { flex-shrink: 0; font-size: 12px; white-space: nowrap; text-decoration: none; color: var(--muted); }
+.section-nav a.active { color: var(--accent); }
+.section { padding: 84px 30px; }
+.section.soft { background: var(--wash); }
+.section:not(.soft) + .section:not(.soft) { border-top: 1px solid var(--line); }
+.wide { max-width: var(--max); margin-left: auto; margin-right: auto; }
+.reading { max-width: var(--read); margin-left: auto; margin-right: auto; }
+.reading + .wide, .wide + .reading, .wide + .wide, .reading + .reading { margin-top: 32px; }
+h2 { margin-bottom: 14px; font-size: clamp(31px, 3.1vw, 42px); font-weight: 600; }
+h2 em { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.02em; }
+h3 { margin: 36px 0 14px; font-size: 24px; font-weight: 600; }
+.question { margin: 0 0 26px; font: italic 400 22px/1.45 var(--serif); letter-spacing: -0.01em; color: #6a6d66; }
+.statement { padding: 88px 30px 72px; text-align: center; }
+.statement .lead { max-width: 760px; margin: 22px auto 0; font-size: 22px; line-height: 1.6; color: #474c43; }
+.statement .lead + p { margin-top: 20px; color: #5e645a; }
+.note { margin-top: 24px; padding-left: 14px; border-left: 2px solid var(--line); font-size: 14px; line-height: 1.7; color: var(--muted); }
+
+/* Media blocks */
+figcaption { font-size: 13px; line-height: 1.65; color: var(--muted); }
+.figure-foot { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-top: 12px; }
+.figure-foot > span { flex: 1; }
+.clip > figcaption:not(.figure-foot) { margin-top: 12px; }
+/* A figure fits on one screen below the sticky nav (a tall one keeps its proportions, centred); click for the large view.
+   Multiplied onto the section behind it, so the white it is drawn on takes the section's colour (the large view keeps white). */
+.paper-fig img { width: 100%; max-height: max(320px, calc(100svh - 200px)); object-fit: contain; mix-blend-mode: multiply; }
+.paper-fig figcaption { margin-top: 12px; text-align: center; }
+.zoom { display: block; cursor: zoom-in; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; align-items: start; }
+.trio { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: start; }
+/* .pair.match: each item grows in proportion to its media's aspect ratio (--ar = width / height on the item),
+   so the two images or clips come out the same height */
+.pair.match { display: flex; align-items: flex-start; }
+.pair.match > * { flex: var(--ar, 1) 1 0; min-width: 0; }
+.strip { display: grid; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); gap: 14px; }
+.strip img { width: 100%; aspect-ratio: var(--ratio, 4 / 5); object-fit: cover; border-radius: 3px; background: #0b0b0b; }
+.strip--contain img { object-fit: contain; }
+.strip--scroll { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 190px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; padding-bottom: 10px; scrollbar-width: thin; }
+.strip--scroll > figure { scroll-snap-align: start; }
+.strip--scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.strip figcaption { margin-top: 8px; font-size: 12px; line-height: 1.5; }
+.strip figcaption b { display: block; font-size: 13px; font-weight: 600; color: var(--ink); }
+.strip + .strip-caption { margin-top: 14px; }
+.strip-caption { font-size: 13px; text-align: center; color: var(--muted); }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); padding: 22px 0; border-block: 1px solid var(--line); }
+.stat { padding: 6px 12px; text-align: center; }
+.stat + .stat { border-left: 1px solid var(--line); }
+.stat b { display: block; font-size: 30px; font-weight: 500; line-height: 1.2; letter-spacing: -0.04em; color: #2c2e2a; }
+.stat span { display: block; margin-top: 8px; font-size: 12px; line-height: 1.5; color: var(--muted); }
+.steps { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 22px; padding: 28px 0; border-block: 1px solid var(--line); }
+.steps > div { padding: 0 20px; }
+.steps > div > span { font-size: 12px; color: var(--accent); }
+.steps h4 { margin: 10px 0; font-size: 22px; font-weight: 500; }
+.steps p { font-size: 14px; line-height: 1.6; color: var(--muted); }
+.steps > .arrow { align-self: center; font-size: 24px; color: #aeb4a7; }
+.tabs { display: flex; gap: 26px; margin-bottom: 20px; overflow-x: auto; border-bottom: 1px solid #cacfc3; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs button { flex-shrink: 0; margin-bottom: -1px; padding: 12px 0; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--muted); font-size: 14px; white-space: nowrap; }
+.tabs button[aria-selected="true"] { border-bottom-color: var(--accent); color: var(--ink); }
+.tab-panel:not([hidden]) + .tab-panel { margin-top: 36px; }
+.tab-panel > p { max-width: var(--read); margin: 16px auto 0; font-size: 15px; }
+.evidence { border-block: 1px solid var(--line); }
+.evidence summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; font-size: 14px; font-weight: 500; list-style: none; cursor: pointer; }
+.evidence summary::-webkit-details-marker { display: none; }
+.evidence summary::after { content: "+"; font-size: 20px; font-weight: 400; color: var(--muted); }
+.evidence[open] summary::after { content: "−"; }
+.evidence > :not(summary) { margin-bottom: 24px; }
+.evidence + .evidence { border-top: 0; }
+
+/* Data tables (values from the paper's tables): .table-wrap scrolls sideways on narrow screens */
+.table-wrap { overflow-x: auto; overscroll-behavior-x: contain; }
+.table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 1.5; font-variant-numeric: tabular-nums; }
+.data-table th, .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--line); text-align: right; }
+.data-table td { white-space: nowrap; }
+.data-table th:first-child, .data-table td:first-child { padding-left: 0; text-align: left; }
+.data-table th:last-child, .data-table td:last-child { padding-right: 0; }
+.data-table thead th { border-bottom-color: #cacfc3; font-size: 12px; font-weight: 600; line-height: 1.4; color: var(--muted); vertical-align: bottom; }
+.data-table tbody th { font-weight: 500; }
+.table-fig figcaption { margin-top: 12px; text-align: center; }
+/* .grouped: one tbody per group, its name in a th spanning the group's rows (scope="rowgroup"); lines only between
+   groups. .fit: only as wide as the columns, centred. */
+.data-table.grouped tbody tr > * { padding-top: 6px; padding-bottom: 6px; border-bottom: 0; }
+.data-table.grouped tbody tr:first-child > * { padding-top: 14px; }
+.data-table.grouped tbody tr:last-child > * { padding-bottom: 14px; }
+.data-table.grouped tbody + tbody tr:first-child > * { border-top: 1px solid var(--line); }
+.data-table.grouped tbody th[rowspan] { font-weight: 600; vertical-align: top; }
+.data-table.grouped tbody td:first-of-type { padding-left: 14px; color: var(--muted); text-align: right; }
+.data-table.fit { width: auto; margin: 0 auto; }
+.data-table.fit th, .data-table.fit td { padding-right: 26px; padding-left: 26px; }
+.data-table.fit th:first-child, .data-table.fit td:first-child { padding-left: 0; }
+.data-table.fit th:last-child, .data-table.fit td:last-child { padding-right: 0; }
+/* A table with color blocks of the same shares beside it (.heatmap, e.g. a classifier's results). Both are .data-table
+   with the same header rows ("Identified as" over the classes: th.axis), so their rows line up; the rows are taller
+   here, so the blocks come out square. A block is the palette's light end mixed toward its dark end by its share
+   (--v, 0 to 1), with rounded corners and a gap around it; th.axis-rows titles the rows, turned to read upward. */
+.table-pair { display: grid; grid-template-columns: minmax(0, 470px) auto; justify-content: center; align-items: start; gap: 64px; }
+.table-pair .data-table tbody th, .table-pair .data-table tbody td { padding-top: 15px; padding-bottom: 15px; }
+.data-table thead tr:not(:last-child) th { padding-bottom: 6px; }
+.data-table thead th:empty { border-bottom-color: transparent; }
+.data-table thead th.axis { font-size: 11px; letter-spacing: 0.08em; text-align: center; text-transform: uppercase; }
+.heatmap { --hm-low: #e9f2f5; --hm-high: #14527a; width: auto; }
+.heatmap th, .heatmap td, .heatmap thead th { border-bottom-color: transparent; }
+.heatmap thead th + th { padding-right: 0; padding-left: 0; text-align: center; }
+.heatmap tbody th:not(.axis-rows) { padding-right: 10px; padding-left: 0; font-size: 12px; line-height: 21px; color: var(--muted); text-align: right; }
+/* The rows' title is ordinary text turned 90° in a column of its own: vertical writing-mode in a narrow cell wraps and
+   overflows in Safari. */
+.heatmap th.axis-rows { position: relative; width: 28px; padding: 0; }
+.heatmap th.axis-rows span { position: absolute; top: 50%; left: 50%; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; line-height: 1.4; color: var(--muted); text-transform: uppercase; white-space: nowrap; transform: translate(-50%, -50%) rotate(-90deg); }
+.heatmap td { position: relative; z-index: 0; width: 52px; padding-right: 0; padding-left: 0; font-size: 13px; font-weight: 500; line-height: 21px; color: #33404a; text-align: center; }
+.heatmap td::before { content: ""; position: absolute; inset: 2px; z-index: -1; border-radius: 5px; background: color-mix(in oklab, var(--hm-high) calc(var(--v, 0) * 100%), var(--hm-low)); }
+.heatmap td.dark { color: #fff; }
+
+/* Beyond the paper */
+.beyond .eyebrow { color: var(--muted); }
+.beyond .eyebrow::before { content: ""; display: inline-block; width: 8px; height: 8px; margin-right: 8px; border: 1px solid currentColor; border-radius: 50%; vertical-align: 1px; }
+
+/* Q&A */
+.qa details { border-top: 1px solid var(--line); }
+.qa details:last-child { border-bottom: 1px solid var(--line); }
+.qa summary { display: flex; justify-content: space-between; gap: 24px; padding: 16px 0; font-size: 16px; font-weight: 500; list-style: none; cursor: pointer; }
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::after { content: "+"; color: #999; }
+.qa details[open] summary::after { content: "−"; }
+.qa details p { padding: 0 20px 18px 0; font-size: 15px; line-height: 1.8; color: #555; }
+
+/* Paper & citation */
+.paper-title { margin-top: 8px; font-size: 21px; font-weight: 500; line-height: 1.5; }
+.section .venue { color: var(--muted); }
+.paper-links { display: flex; flex-wrap: wrap; gap: 8px 26px; margin-top: 20px; }
+.text-link { font-size: 14px; color: var(--accent); }
+.citation { margin-top: 32px; }
+.citation-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin: 4px 0 12px; font-size: 13px; color: var(--accent); }
+.citation-copy { padding: 6px 15px; border: 1px solid #c8ccc3; border-radius: 20px; background: #fff; color: var(--ink); font-size: 12px; line-height: 1.6; }
+.citation-copy:hover { border-color: var(--accent); color: var(--accent); }
+.citation-status { min-height: 1.6em; font-size: 13px; color: var(--muted); }
+.citation pre { max-width: 100%; margin: 8px 0 24px; padding: 18px 20px; overflow-wrap: anywhere; white-space: pre-wrap; border: 1px solid var(--line); border-radius: 3px; background: #fff; color: #4a4e45; font: 12px/1.75 var(--mono); tab-size: 2; }
+.affiliation-list { padding-left: 22px; font-size: 14px; line-height: 1.7; }
+.affiliation-list li { padding: 4px 0; }
+.small { font-size: 13px; }
+.credit { margin-top: 28px; font-size: 12px; line-height: 1.6; color: var(--muted); }
+
+/* Full video */
+.chapters { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px; margin-top: 18px; }
+.chapters button { padding: 4px 0; border: 0; border-bottom: 1px solid #c8ccc3; background: none; color: #4e5746; font-size: 12px; }
+.chapters button:hover { border-color: var(--accent); color: var(--accent); }
+.chapters span { margin-right: 6px; color: #858b7d; font-variant-numeric: tabular-nums; }
+
+/* Related & footer */
+.related-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin: 0; padding: 0; list-style: none; }
+.related-list a { display: block; height: 100%; padding: 16px 18px; border: 1px solid var(--line); border-radius: 4px; text-decoration: none; }
+.related-list a:hover { border-color: var(--accent); }
+.related-list b { display: block; font-size: 15px; font-weight: 600; line-height: 1.35; }
+.related-list span { display: block; margin-top: 6px; font-size: 12px; line-height: 1.5; color: var(--muted); }
+.footer { display: flex; justify-content: flex-end; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 30px 32px 42px; border-top: 1px solid var(--line); font-size: 11px; color: var(--muted); }
+.footer a { text-decoration: none; }
+.footer p { margin: 0; }
+
+/* Lightbox */
+dialog { width: calc(100vw - 48px); max-width: 1400px; max-height: calc(100vh - 48px); padding: 30px; overflow: auto; border: 0; background: #fff; }
+dialog::backdrop { background: #171d15e8; }
+dialog img { width: auto; max-width: 100%; margin: 0 auto; }
+.close-lightbox { position: sticky; top: 0; z-index: 1; display: block; margin: -16px -16px 4px auto; padding: 5px 10px; border: 0; background: #fff; color: #323c2a; font-size: 28px; line-height: 1; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .hero--cover .hero-frame { min-height: 640px; }
+  .hero--cover.is-split .hero-media { right: 0; }
+  .hero--cover.is-split .hero-media::after { display: none; }
+  .hero--cover .hero-media video { object-position: var(--hero-pos-mobile, var(--hero-pos, 50% 50%)); }
+  .hero--cover .hero-frame::after { background: linear-gradient(180deg, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.05) 24%, rgba(0, 0, 0, 0.45) 48%, rgba(0, 0, 0, 0.9) 74%, rgba(0, 0, 0, 0.96)); }
+  .hero--cover .hero-heading, .hero--cover.is-split .hero-heading { top: auto; right: 32px; bottom: 150px; left: 32px; width: auto; max-width: 640px; }
+  .hero-explore { bottom: 92px; left: 32px; transform: none; }
+  .hero-nav { padding: 20px 32px; }
+  .hero--cover .hero-foot { right: 32px; left: 32px; }
+  .trio { grid-template-columns: 1fr; }
+  .table-pair { grid-template-columns: minmax(0, 470px); gap: 28px; }
+  .heatmap { justify-self: center; }
+}
+@media (max-width: 800px) {
+  .desktop-break { display: none; }
+  .authors { font-size: 14px; }
+  .affiliations { font-size: 12px; }
+  .section-nav { justify-content: flex-start; gap: 22px; }
+  .section { padding: 62px 24px; }
+  .statement { padding: 62px 24px 52px; }
+  .statement .lead { font-size: 20px; }
+  .stat b { font-size: 26px; }
+  .footer { flex-wrap: wrap; }
+  .footer p { order: 3; width: 100%; text-align: center; }
+}
+@media (max-width: 650px) {
+  .hero--cover .hero-heading, .hero--cover.is-split .hero-heading { right: 24px; left: 24px; }
+  .title-main { font-size: clamp(36px, 10vw, 52px); }
+  .title-detail { margin-top: 14px; font-size: 17px; }
+  .hero-explore { left: 24px; font-size: 12px; }
+  .hero--cover .hero-foot { right: 24px; bottom: 20px; left: 24px; font-size: 11px; }
+  .hero-nav { padding: 16px 24px; font-size: 12px; }
+  .hero--stage { padding: 72px 16px 0; }
+  .hero-meta { padding: 28px 20px 32px; }
+  .actions { gap: 8px; }
+  .button { gap: 12px; padding: 8px 13px; font-size: 12px; }
+  .pair { grid-template-columns: 1fr; }
+  .pair.match { flex-direction: column; }
+  .pair.match > * { flex: none; width: 100%; }
+  .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .strip--scroll { grid-template-columns: none; grid-auto-columns: 150px; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 16px; }
+  .stat + .stat { border-left: 0; }
+  .stat:nth-child(even) { border-left: 1px solid var(--line); }
+  .steps { grid-template-columns: 1fr; gap: 18px; }
+  .steps > .arrow { display: none; }
+  .figure-foot { flex-wrap: wrap; gap: 10px; }
+  .figure-foot > span { flex-basis: 100%; }
+  .figure-foot .motion { margin-left: auto; }
+}
+@media (max-width: 480px) {
+  body { font-size: 16px; }
+  h2 { font-size: 29px; }
+  .question { font-size: 20px; }
+  .section { padding: 50px 20px; }
+  .tabs { gap: 20px; }
+  .tabs button { font-size: 13px; }
+  .chapters { justify-content: flex-start; gap: 10px 18px; }
+  .data-table { font-size: 13px; }
+  .heatmap td { width: 50px; font-size: 12px; }
+  dialog { width: calc(100vw - 22px); padding: 28px 10px 10px; }
+  .citation pre { padding: 14px 12px; font-size: 11px; }
+}
+@media (max-height: 600px) and (min-width: 901px) {
+  .hero--cover .hero-frame { min-height: 540px; }
+  .hero--cover .hero-heading { top: 76px; }
+  .title-main { font-size: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+  </style>
+</head>
+<body style="--accent:#a8451d; --accent-hero:#ff9d72">
+  <a class="skip" href="#overview">Skip to content</a>
+
+  <header class="hero hero--stage" style="--media-w:1842px; --max:1440px">
+    <nav class="hero-nav" aria-label="Site">
+      <a href="force-controlled-end-effector.pdf">Paper ↗</a>
+    </nav>
+    <div class="hero-heading">
+      <p class="eyebrow">Compliant end-effectors · Gripper</p>
+      <h1><span class="title-main"><span style="white-space:nowrap">Force-Controlled</span> <span style="white-space:nowrap">End-Effector</span></span><span class="title-detail">with Passive Structural Compliance and Intrinsic Contact Sensing</span></h1>
+    </div>
+    <div class="hero-stage-media is-light">
+      <video id="hero-video" class="loop" muted loop playsinline controls preload="metadata" poster="hero.jpg" width="1842" height="466" aria-label="Left: on a robot arm, the end-effector presses a grinding tool down onto a horizontal workpiece and moves slowly to the right; a plot at the top left draws the measured contact force around the 5 N target. Middle: the end-effector, turned on its side, presses the tool against a vertical workpiece and moves slowly upward; a plot at the bottom right draws its contact force. Right: photos of the ground surface, dark before grinding, patchy after grinding without force control and evenly ground with it, above the whole workpiece with the three areas framed." aria-describedby="hero-caption">
+        <source src="hero.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero-foot">
+      <p id="hero-caption">Robotic grinding with a 5 N force target, on a horizontal workpiece (left) and on a vertical one (middle); the plots draw the measured contact force through each pass. Right: the surface before grinding, and after grinding without force control and with it, above the whole workpiece.</p>
+      <button class="motion" type="button" data-video="hero-video">Play clip</button>
+    </div>
+    <div class="hero-meta">
+      <p class="authors">Tianyi Yan<sup>1,2</sup>, Jianhuan Chen<sup>1,2</sup>, Siyue Yao<sup>1,2</sup>, Xuyang Duan<sup>1,2,3</sup>, Yanjun Wang<sup>4</sup>, Hao Wang<sup>3,5</sup>, Genliang Chen<sup>1,2,3,*</sup></p>
+      <p class="affiliations"><sup>1–5</sup>&nbsp;Shanghai Jiao Tong University &nbsp;·&nbsp; <sup>*</sup>&nbsp;Corresponding&nbsp;author</p>
+      <p class="venue">IEEE Transactions on Automation Science and Engineering, vol. 22, pp. 23202–23213, 2025</p>
+      <div class="actions">
+        <a class="button" href="force-controlled-end-effector.pdf">Paper <span aria-hidden="true">↗</span></a>
+        <a class="button" href="#grinding">Grinding demo <span aria-hidden="true">↓</span></a>
+        <a class="button" href="#video">Full video <span aria-hidden="true">▷</span></a>
+        <a class="button" href="#citation">BibTeX</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="section-nav" aria-label="On this page">
+    <a href="#overview">Overview</a><a href="#why">Why</a><a href="#design">Design</a><a href="#sensing">Sensing</a><a href="#surfaces">Surfaces</a><a href="#grinding">Grinding</a><a href="#paper">Paper</a><a href="#video">Video</a>
+  </nav>
+
+  <main>
+    <section class="section statement" id="overview">
+      <div class="reading">
+        <p class="eyebrow">The idea</p>
+        <h2>Three pre-bent steel beams push, absorb,<br><em>and feel the contact force.</em></h2>
+        <p class="lead">Three pre-bent spring-steel beams sit between a motor-driven platform and the tool. Bending them presses the tool onto the workpiece, their flexibility absorbs uneven surfaces and small errors in the robot's motion, and a strain gauge on each beam reads how far it bends.</p>
+        <p>A model of the bent beams turns those readings into the contact force, so the end-effector controls the force from its own sensing, with no separate force sensor in the loop. On a robot arm it held set forces of 10 to 30 N on flat, wavy, sloped and vertical surfaces, and in grinding it cut the swing of the contact force from 7.13 N to 1.38 N.</p>
+      </div>
+    </section>
+
+    <section class="section soft" id="why">
+      <div class="reading">
+        <p class="eyebrow">01 / Why force control</p>
+        <h2>Grinding needs<br><em>a steady touch.</em></h2>
+        <p class="question">Why not just bolt a grinder onto a robot arm?</p>
+        <p>The quality of a ground surface depends on a steady contact force. Manual grinding controls the force by experience, but it is hard to keep steady and costly in labor. Machine tools and robot arms are flexible and accurate in position, yet they fall short in controlling force. An end-effector at the tip of the arm can add that control.</p>
+        <p>Existing force-controlled end-effectors take three routes. Constant-force mechanisms give a steady force without control, but the force cannot be adjusted during the task. Active end-effectors with sensors and controllers adjust the force in real time, but without compliance they overshoot when they meet the workpiece. Hybrids add compliant parts to active control, but still rely on force sensors outside the end-effector.</p>
+        <p>This end-effector puts both in the same parts: elastic beams make it compliant and produce the force, and strain gauges embedded in those beams sense it.</p>
+      </div>
+      <figure class="reading paper-fig"><a class="zoom" href="fig-1-system.webp"><img src="fig-1-system.webp" width="2000" height="1060" loading="lazy" alt="Figure 1: a drawing of a robot arm holding the force-controlled end-effector with a grinding tool above a workpiece, and a photograph of the prototype: white frame, aluminum platforms and bent beams with gauge wiring."></a><figcaption>Fig. 1: the end-effector between a robot arm and a grinding tool (drawing, left), and the prototype (right).</figcaption></figure>
+    </section>
+
+    <section class="section" id="design">
+      <div class="reading">
+        <p class="eyebrow">02 / Mechanical design</p>
+        <h2>Springs that push<br><em>and feel.</em></h2>
+        <p class="question">How can one device make, absorb and sense force?</p>
+        <p>A motor with a leadscrew sits in the middle of the end-effector and drives a moving platform along three guide rails set 120° apart. Three slender spring-steel beams, also 120° apart, join the moving platform to a middle platform, which slides on the same rails and carries the end platform with the tool. Each beam is a straight strip, pre-bent when its ends are mounted in connectors angled at 30°.</p>
+        <p>When the motor moves the platform, the beams bend further and press the tool onto the workpiece; their flexibility lets the tool give way to bumps and to small errors in the robot's motion. The beams also make the end-effector soft sideways, so a linear bearing at the bottom of the frame guides the end of the leadscrew and keeps the platform moving straight along its axis.</p>
+        <p>Each beam is 80 mm long with a 14 × 0.25 mm cross-section, and carries a flexible strain gauge built into a flexible printed circuit and glued to the beam. The frame is 3D-printed plastic; the moving platform and the beams' connectors are aluminum alloy.</p>
+      </div>
+      <div class="wide pair match">
+        <figure class="clip" style="--ar:1.3391"><video id="clip-cad" class="loop" muted loop playsinline controls preload="none" poster="clip-cad.jpg" width="624" height="466" aria-label="CAD animation: the assembled end-effector comes apart into its platforms, motor, guide rails, frame and three blue beams with their connectors."><source src="clip-cad.mp4" type="video/mp4"></video><figcaption class="figure-foot"><span>CAD animation: the end-effector comes apart into its platforms, motor and guide rails, frame and three spring-steel beams (blue).</span><button type="button" class="motion" data-video="clip-cad">Play clip</button></figcaption></figure>
+        <figure class="paper-fig" style="--ar:2.0243"><a class="zoom" href="fig-2-architecture.webp"><img src="fig-2-architecture.webp" width="2000" height="988" loading="lazy" alt="Figure 2: front view and cross-section of the end-effector, labelling the motor, moving platform, middle platform, slider, slender elastic beams, frame and end platform; and one beam bent from straight, with its end angles of 30 degrees."></a><figcaption>Fig. 2: (a) the overall structure, (b) a cross-section, (c) the beam's pre-bending.</figcaption></figure>
+      </div>
+      <div class="wide steps" aria-label="How the end-effector makes and senses force">
+        <div><span>01</span><h4>Motor</h4><p>The leadscrew moves the platform that holds the beams' upper ends</p></div><span class="arrow" aria-hidden="true">→</span>
+        <div><span>02</span><h4>Beams bend</h4><p>The pre-bent beams bend further, press the tool onto the workpiece and give way to bumps</p></div><span class="arrow" aria-hidden="true">→</span>
+        <div><span>03</span><h4>Gauges read</h4><p>A strain gauge on each beam reads its bending, and the model turns the readings into the contact force</p></div>
+      </div>
+      <div class="wide stats">
+        <div class="stat"><b>100 × 100 × 154&nbsp;mm</b><span>Length × width × height</span></div>
+        <div class="stat"><b>697.2 g</b><span>Weight</span></div>
+        <div class="stat"><b>80 × 14 × 0.25&nbsp;mm</b><span>Each spring-steel beam: length × width × thickness</span></div>
+      </div>
+    </section>
+
+    <section class="section soft" id="sensing">
+      <div class="reading">
+        <p class="eyebrow">03 / Sensing and control</p>
+        <h2>From bending<br><em>to force.</em></h2>
+        <p class="question">How does a strain reading become a contact force?</p>
+        <p>The model divides each beam into many short segments joined by elastic joints, which turns its large deflection into the statics of a chain of rigid links. The three beams and the platforms are solved together, so for a target force the model gives the shape the beams must take and the motor position that produces it.</p>
+        <p>The gauge on each beam reads the bending under it: its voltage changes linearly with the local curvature. Each gauge was calibrated on a test rig, where a laser sensor measured the distance between the beam's ends in 22 configurations. With the three readings added, the model reconstructs the beams' shape and the force they exert.</p>
+        <p>One control board combines an STM32 microcontroller, which drives the motor, with the sampling circuit for the gauges. A PID loop compares the sensed shape of the beams with the shape the model requires for the target force, and moves the motor to close the gap. For the tests, the end-effector was mounted on a UR10 robot arm.</p>
+      </div>
+      <div class="wide pair match">
+        <figure class="paper-fig" style="--ar:1.0168"><a class="zoom" href="fig-3-mechanism.webp"><img src="fig-3-mechanism.webp" width="2000" height="1967" loading="lazy" alt="Figure 3: a blue elastic beam divided into segments that become a chain of small joints, and the whole end-effector's three beams drawn the same way as hyper-redundant rigid multibody mechanisms."></a><figcaption>Fig. 3: (a) one beam as a chain of rigid links joined by elastic joints; (b) the whole end-effector modelled the same way.</figcaption></figure>
+        <figure class="paper-fig" style="--ar:0.9390"><a class="zoom" href="fig-4-calibration.webp"><img src="fig-4-calibration.webp" width="1878" height="2000" loading="lazy" alt="Figure 4: a sketch of a gauge reading a beam's local bending, a photo of the gauge on a beam, the calibration rig with a slider and a laser sensor, and straight-line fits of deflection angle against voltage for the three beams."></a><figcaption>Fig. 4: how a gauge reads local bending, the calibration rig with a laser sensor, and the linear fits for the three beams.</figcaption></figure>
+      </div>
+      <div class="wide stats">
+        <div class="stat"><b>≈ 37 N</b><span>Largest output force</span></div>
+        <div class="stat"><b>≤ 0.55 N</b><span>Largest spread of the output force over five&nbsp;repeats</span></div>
+        <div class="stat"><b>≤ 0.65 N</b><span>Largest mean error between target and measured&nbsp;force</span></div>
+        <div class="stat"><b>&lt; 0.7 N</b><span>Mean error of the force sensed by the&nbsp;gauges</span></div>
+        <div class="stat"><b>0.44 / 0.32 N</b><span>RMS error following a sinusoidal / stepped&nbsp;force</span></div>
+      </div>
+      <div class="reading">
+        <p>Thirty motor settings, each measured five times with a six-axis force sensor, gave output forces up to about 37 N that varied by no more than 0.55 N. Across 14 target forces, the force the end-effector produced was within 0.65 N of the target on average, and the force read from its gauges within 0.7 N. Following a sinusoidal and a stepped force, the RMS errors were 0.44 N and 0.32 N, and the largest errors 1 N and 0.75 N; the errors grew mostly at the peaks and troughs, which the authors attribute to inertia during the motion.</p>
+      </div>
+      <details class="evidence reading"><summary>See the force and tracking tests</summary><figure class="paper-fig"><a class="zoom" href="fig-6-output-force.webp"><img src="fig-6-output-force.webp" width="2000" height="943" loading="lazy" alt="Figure 6: the end-effector pressing down on a force sensor, and a plot of the largest and smallest output force at each motor setting, rising almost linearly, with their spread."></a><figcaption>Fig. 6: the output-force test on a force sensor, and the largest and smallest force at each motor setting, with their spread.</figcaption></figure><figure class="paper-fig"><a class="zoom" href="fig-7-validation.webp"><img src="fig-7-validation.webp" width="2000" height="1612" loading="lazy" alt="Figure 7: the validation setup with a laser sensor; measured and sensed force against the target force, both close to the diagonal; and the mean errors of both at each target."></a><figcaption>Fig. 7: (a) the setup with a laser sensor; (b) measured and (c) sensed force against the target; (d) the mean errors of both.</figcaption></figure><div class="pair match"><figure class="paper-fig" style="--ar:1.3248"><a class="zoom" href="fig-8-sinusoidal.webp"><img src="fig-8-sinusoidal.webp" width="1644" height="1241" loading="lazy" alt="Figure 8: a prescribed sinusoidal force and the measured force almost on top of each other, with the error as green bars."></a><figcaption>Fig. 8: following a sinusoidal force.</figcaption></figure><figure class="paper-fig" style="--ar:1.3258"><a class="zoom" href="fig-9-stepped.webp"><img src="fig-9-stepped.webp" width="1644" height="1240" loading="lazy" alt="Figure 9: a prescribed stepped force rising to 30 newtons and back, the measured force on top of it, and the error as green bars."></a><figcaption>Fig. 9: following a stepped force.</figcaption></figure></div></details>
+    </section>
+
+    <section class="section" id="surfaces">
+      <div class="reading">
+        <p class="eyebrow">04 / Constant-force control</p>
+        <h2>Holding the force<br><em>on any surface.</em></h2>
+        <p class="question">How steady is it on flat, wavy, sloped and vertical surfaces?</p>
+        <p>With a set of pulleys at its output, the end-effector was pressed against four surfaces while the robot arm moved it along them on a fixed path. The end-effector held the target force from its own gauge readings. Each surface was tested at target forces of 10, 20 and 30 N and at 6.25, 12.5 and 20 mm/s.</p>
+      </div>
+      <div class="wide" style="max-width:748px">
+        <div class="tabs" role="tablist" aria-label="Test surfaces">
+          <button id="tab-flat" role="tab" aria-selected="true" aria-controls="panel-flat">Flat</button>
+          <button id="tab-wavy" role="tab" aria-selected="false" aria-controls="panel-wavy">Wavy</button>
+          <button id="tab-slope" role="tab" aria-selected="false" aria-controls="panel-slope">Slope</button>
+          <button id="tab-vertical" role="tab" aria-selected="false" aria-controls="panel-vertical">Vertical</button>
+        </div>
+        <div class="tab-panel" id="panel-flat" role="tabpanel" aria-labelledby="tab-flat">
+          <figure class="clip"><video id="clip-flat" class="loop" muted loop playsinline controls preload="none" poster="clip-flat.jpg" width="748" height="466" aria-label="The end-effector, pointing down from the robot arm, rolls its pulley from the left end of a white flat plate to the right end; a plot at the bottom left draws the measured force around 20 newtons."><source src="clip-flat.mp4" type="video/mp4"></video><figcaption class="figure-foot"><span>A pass along the flat plate at 20 mm/s with a 20 N target; the plot draws the measured force.</span><button type="button" class="motion" data-video="clip-flat">Play clip</button></figcaption></figure>
+          <p>On a 250 mm flat plate the force stayed within ±1.35 N of the target in every run, and within ±1 N for 10 N at the two lower speeds.</p>
+        </div>
+        <div class="tab-panel" id="panel-wavy" role="tabpanel" aria-labelledby="tab-wavy">
+          <figure class="clip"><video id="clip-wavy" class="loop" muted loop playsinline controls preload="none" poster="clip-wavy.jpg" width="748" height="466" aria-label="The end-effector rolls its pulley over a white wavy surface from left to right, its beams flexing over each wave; a plot at the bottom left draws the measured force, which rises and falls with the waves."><source src="clip-wavy.mp4" type="video/mp4"></video><figcaption class="figure-foot"><span>A pass over the wavy surface at 20 mm/s with a 20 N target; the measured force rises and falls with the waves.</span><button type="button" class="motion" data-video="clip-wavy">Play clip</button></figcaption></figure>
+          <p>The second surface is a sine wave. The force followed its shape, rising and falling with the waves, and stayed within ±1.80 N at 10 and 20 N; at 30 N the fluctuation reached ±2.05 N at the highest speed.</p>
+        </div>
+        <div class="tab-panel" id="panel-slope" role="tabpanel" aria-labelledby="tab-slope">
+          <figure class="clip"><video id="clip-slope" class="loop" muted loop playsinline controls preload="none" poster="clip-slope.jpg" width="748" height="466" aria-label="The robot arm, tilted, moves the end-effector up the wavy surface fixed on a slope, rolling its pulley along it; a plot at the bottom left draws the measured force around 20 newtons."><source src="clip-slope.mp4" type="video/mp4"></video><figcaption class="figure-foot"><span>A pass up the wavy surface on the slope at 20 mm/s with a 20 N target; the plot draws the measured force.</span><button type="button" class="motion" data-video="clip-slope">Play clip</button></figcaption></figure>
+          <p>Fixed on a 30° slope, with the arm moving parallel to it, the wavy surface gave results close to the horizontal ones: within ±1.79 N at 6.25 mm/s, and ±1.98 N at most.</p>
+        </div>
+        <div class="tab-panel" id="panel-vertical" role="tabpanel" aria-labelledby="tab-vertical">
+          <figure class="clip"><video id="clip-vertical" class="loop" muted loop playsinline controls preload="none" poster="clip-vertical.jpg" width="748" height="466" aria-label="The end-effector, held sideways by the robot arm, presses its pulley against the wavy surface standing upright and moves up along it; a plot at the bottom left draws the measured force around 20 newtons."><source src="clip-vertical.mp4" type="video/mp4"></video><figcaption class="figure-foot"><span>A pass up the wavy surface standing vertically at 20 mm/s with a 20 N target; the plot draws the measured force.</span><button type="button" class="motion" data-video="clip-vertical">Play clip</button></figcaption></figure>
+          <p>With the wavy surface standing vertically and the arm moving upward, the fluctuation stayed within ±1.99 N, close to the horizontal and sloped tests.</p>
+        </div>
+      </div>
+      <figure class="wide table-fig">
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="table-surfaces-caption">
+          <table class="data-table grouped fit">
+            <thead>
+              <tr><th></th><th></th><th class="axis" colspan="3" scope="colgroup">Robot speed</th></tr>
+              <tr><th scope="col">Surface</th><th scope="col">Target force</th><th scope="col">6.25 mm/s</th><th scope="col">12.5 mm/s</th><th scope="col">20 mm/s</th></tr>
+            </thead>
+            <tbody>
+              <tr><th rowspan="3" scope="rowgroup">Flat</th><td>10 N</td><td>±0.74 N</td><td>±0.99 N</td><td>±1.16 N</td></tr>
+              <tr><td>20 N</td><td>±1.02 N</td><td>±1.06 N</td><td>±1.24 N</td></tr>
+              <tr><td>30 N</td><td>±1.05 N</td><td>±1.13 N</td><td>±1.35 N</td></tr>
+            </tbody>
+            <tbody>
+              <tr><th rowspan="3" scope="rowgroup">Wavy</th><td>10 N</td><td>±1.55 N</td><td>±1.54 N</td><td>±1.78 N</td></tr>
+              <tr><td>20 N</td><td>±1.68 N</td><td>±1.73 N</td><td>±1.80 N</td></tr>
+              <tr><td>30 N</td><td>±1.88 N</td><td>±2.04 N</td><td>±2.05 N</td></tr>
+            </tbody>
+            <tbody>
+              <tr><th rowspan="3" scope="rowgroup">Slope</th><td>10 N</td><td>±1.52 N</td><td>±1.69 N</td><td>±1.78 N</td></tr>
+              <tr><td>20 N</td><td>±1.61 N</td><td>±1.71 N</td><td>±1.84 N</td></tr>
+              <tr><td>30 N</td><td>±1.79 N</td><td>±1.97 N</td><td>±1.98 N</td></tr>
+            </tbody>
+            <tbody>
+              <tr><th rowspan="3" scope="rowgroup">Vertical</th><td>10 N</td><td>±1.47 N</td><td>±1.68 N</td><td>±1.79 N</td></tr>
+              <tr><td>20 N</td><td>±1.59 N</td><td>±1.70 N</td><td>±1.82 N</td></tr>
+              <tr><td>30 N</td><td>±1.81 N</td><td>±1.93 N</td><td>±1.99 N</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figcaption id="table-surfaces-caption">Tables II–V: fluctuation of the contact force about the target, for each surface, target force and robot speed.</figcaption>
+      </figure>
+      <div class="reading">
+        <p>Across all 36 runs, the fluctuation ranged from ±0.74 N, on the flat plate at 10 N and the lowest speed, to ±2.05 N, on the wavy surface at 30 N and the highest speed. Faster motion and larger forces made the force less steady. The controller could respond faster with a higher sampling rate and motor frequency, but it then overshoots more easily, so the tests kept to these three speeds. Gentle curves behave almost like a flat surface; on sharper ones, controlling force along a single axis becomes the limit.</p>
+      </div>
+      <figure class="wide paper-fig"><a class="zoom" href="fig-12-slope.webp"><img src="fig-12-slope.webp" width="2000" height="1266" loading="lazy" alt="Figure 12: the end-effector on a tilted robot arm pressing on a wavy surface fixed on a slope; a multiple-exposure photo of the arm moving up the slope from the start point to the end point; and the force at three speeds for targets of 10, 20 and 30 newtons."></a><figcaption>Fig. 12: the wavy surface on the 30° slope: (a) the setup, (b) the arm's motion up the slope in multiple exposure, (c–e) the force at 6.25, 12.5 and 20 mm/s for targets of 10, 20 and 30 N.</figcaption></figure>
+    </section>
+
+    <section class="section soft" id="grinding">
+      <div class="reading">
+        <p class="eyebrow">05 / Grinding</p>
+        <h2>Grinding<br><em>with feeling.</em></h2>
+        <p class="question">Does force control change the finish?</p>
+        <p>For grinding, a grinding tool took the place of the pulleys, and the workpiece had a fully black oxidized surface. The robot arm moved the tool across it horizontally with a 5 N target, in two sets of experiments: one with force control and one without.</p>
+        <p>Without force control, the contact force swung over a range of 7.13 N and the black oxide was only partly removed. With force control, the range shrank to 1.38 N, about 80% less, and the oxide came off evenly. The surface roughness Ra fell from 9.630 µm before grinding to 7.740 µm when ground without force control, and to 1.961 µm when ground with it.</p>
+      </div>
+      <figure class="wide paper-fig"><a class="zoom" href="fig-14-grinding.webp"><img src="fig-14-grinding.webp" width="2000" height="1083" loading="lazy" alt="Figure 14: the end-effector with a force sensor and a grinding tool above a black workpiece; close-ups of the surface before grinding, ground without force control in patches, and ground evenly with force control; and the whole workpiece with the three areas marked."></a><figcaption>Fig. 14: (a) the grinding setup; (b) the surface before grinding, ground without force control, and ground with it; (c) the whole workpiece.</figcaption></figure>
+      <figure class="reading paper-fig"><a class="zoom" href="fig-15-roughness.webp"><img src="fig-15-roughness.webp" width="2000" height="1793" loading="lazy" alt="Figure 15: three roughness profiles, the last much flatter, with Ra of 9.630, 7.740 and 1.961 micrometers; and two grinding-force traces over 24 seconds, the first swinging over 7.13 newtons and the second within 1.38 newtons around 5 newtons."></a><figcaption>Fig. 15: (a–c) roughness before grinding, ground without force control and ground with it; right, the grinding force without (top) and with force control (bottom).</figcaption></figure>
+      <div class="wide stats">
+        <div class="stat"><b>7.13 → 1.38 N</b><span>Swing of the grinding force, without → with force&nbsp;control</span></div>
+        <div class="stat"><b>7.740 → 1.961 µm</b><span>Roughness Ra, ground without → with force&nbsp;control</span></div>
+        <div class="stat"><b>6.73 → 1.40 N</b><span>The same on an inclined workpiece</span></div>
+        <div class="stat"><b>7.51 → 1.46 N</b><span>The same on a vertical workpiece</span></div>
+      </div>
+      <div class="reading">
+        <p>The same comparison on an inclined workpiece and on a vertical one gave similar gains: the swing of the force fell from 6.73 N to 1.40 N, and from 7.51 N to 1.46 N.</p>
+      </div>
+      <div class="wide pair match">
+        <figure class="clip" style="--ar:1.4120"><video id="clip-grinding-inclined" class="loop" muted loop playsinline controls preload="none" poster="clip-grinding-inclined.jpg" width="658" height="466" aria-label="Grinding on an inclined workpiece: the end-effector, tilted on the robot arm, presses the grinding tool onto the sloped aluminum block and moves slowly up it; a plot at the top right draws the measured contact force around the 5 N target."><source src="clip-grinding-inclined.mp4" type="video/mp4"></video><figcaption class="figure-foot"><span>Grinding on the inclined workpiece with a 5 N target; the plot draws the measured contact force.</span><button type="button" class="motion" data-video="clip-grinding-inclined">Play clip</button></figcaption></figure>
+        <figure class="paper-fig" style="--ar:1.5480"><a class="zoom" href="fig-16-inclined.webp"><img src="fig-16-inclined.webp" width="2000" height="1292" loading="lazy" alt="Figure 16: the end-effector with a force sensor and grinding tool on an inclined workpiece, and the grinding force without force control, swinging over 6.73 newtons, and with it, within 1.40 newtons."></a><figcaption>Fig. 16: grinding on the inclined workpiece: (a) the setup; the force without (b) and with (c) force control.</figcaption></figure>
+      </div>
+      <details class="evidence reading"><summary>See the vertical grinding test</summary><figure class="paper-fig"><a class="zoom" href="fig-17-vertical.webp"><img src="fig-17-vertical.webp" width="1720" height="2000" loading="lazy" alt="Figure 17: the end-effector held sideways, grinding a vertical workpiece, and the grinding force without force control, swinging over 7.51 newtons, and with it, within 1.46 newtons."></a><figcaption>Fig. 17: grinding on the vertical workpiece: (a) the setup; the force without (b) and with (c) force control.</figcaption></figure></details>
+    </section>
+
+    <section class="section" id="qa">
+      <div class="reading">
+        <p class="eyebrow">Questions &amp; answers</p>
+        <h2>Common questions.</h2>
+        <div class="qa">
+          <details><summary>Where is the force sensor?</summary><p>The strain gauges on the three beams, together with the model, are the force sensor; the controller uses no other. A six-axis force sensor served only as a reference, to measure the output force in the tests.</p></details>
+          <details><summary>How accurate is it?</summary><p>Across 14 target forces, the force the end-effector produced was within 0.65 N of the target on average, and the force read from its gauges within 0.7 N. Following a sinusoidal and a stepped force, the RMS errors were 0.44 N and 0.32 N.</p></details>
+          <details><summary>Does it work on slopes and walls?</summary><p>Yes. On the wavy surface fixed on a 30° slope, the force stayed within ±1.98 N, and on the same surface standing vertically within ±1.99 N, close to the horizontal tests. Grinding on inclined and vertical workpieces steadied the force about as much as on the horizontal one.</p></details>
+          <details><summary>What are its limits?</summary><p>It controls force along one axis only, so the force varies more on sharply curved surfaces. Faster motion would need a higher sampling rate and motor frequency, which make overshoot and instability more likely. The authors plan a three-degree-of-freedom version that controls orientation and force together, and more sensitive sensing for a faster response.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft" id="paper">
+      <div class="reading">
+        <p class="eyebrow">Paper &amp; authors</p>
+        <h2>Compliance and sensing<br><em>in one end-effector.</em></h2>
+        <p class="paper-title">Design of a Novel Force-Controlled End-Effector With Passive Structural Compliance and Intrinsic Contact Sensing</p>
+        <p>Tianyi Yan, Jianhuan Chen, Siyue Yao, Xuyang Duan, Yanjun Wang, Hao Wang, and Genliang Chen.</p>
+        <p class="venue">IEEE Transactions on Automation Science and Engineering, vol. 22, pp. 23202–23213, 2025.</p>
+        <div class="paper-links"><a class="text-link" href="force-controlled-end-effector.pdf">Read the paper (PDF) ↗</a><a class="text-link" href="https://doi.org/10.1109/TASE.2025.3627234">Published version at doi.org/10.1109/TASE.2025.3627234 ↗</a></div>
+        <details class="evidence citation" id="citation">
+          <summary>Citation / BibTeX</summary>
+          <div class="citation-actions"><button class="citation-copy" id="copy-bibtex" type="button" aria-describedby="citation-status" hidden>Copy BibTeX</button><a href="citation.bib" download>Download .bib ↓</a></div>
+          <p class="citation-status" id="citation-status" role="status" aria-live="polite"></p>
+          <pre tabindex="0" aria-label="BibTeX citation"><code id="bibtex">@article{yan2025endeffector,
+  title     = {Design of a Novel Force-Controlled End-Effector With Passive Structural Compliance and Intrinsic Contact Sensing},
+  author    = {Yan, Tianyi and Chen, Jianhuan and Yao, Siyue and Duan, Xuyang and Wang, Yanjun and Wang, Hao and Chen, Genliang},
+  journal   = {IEEE Transactions on Automation Science and Engineering},
+  volume    = {22},
+  pages     = {23202--23213},
+  year      = {2025},
+  publisher = {Institute of Electrical and Electronics Engineers (IEEE)},
+  doi       = {10.1109/TASE.2025.3627234}
+}</code></pre>
+        </details>
+        <details class="evidence"><summary>Full affiliations</summary><ol class="affiliation-list"><li>Shanghai Key Laboratory of Intelligent Robotics, Shanghai Jiao Tong University, Shanghai, China</li><li>Meta Robotics Institute, Shanghai Jiao Tong University, Shanghai, China</li><li>State Key Laboratory of Mechanical System and Vibration, Shanghai Jiao Tong University, Shanghai, China</li><li>Institute of Marine Equipment, Shanghai Jiao Tong University, Shanghai, China</li><li>Shanghai Key Laboratory of Digital Manufacturing for Thin-Walled Structures, Shanghai Jiao Tong University, Shanghai, China</li></ol><p class="small">* Corresponding author: Genliang Chen</p></details>
+      </div>
+    </section>
+
+    <section class="section" id="video">
+      <div class="reading">
+        <p class="eyebrow">Supplementary video</p>
+        <h2>Watch the demonstration video.</h2>
+        <p>The supplementary video: the mechanical design, constant-force control on the flat, wavy, sloped and vertical surfaces, and grinding on horizontal, inclined and vertical workpieces.</p>
+      </div>
+      <div class="wide" style="max-width:832px">
+        <video id="video-demo" controls playsinline preload="none" poster="video-demo.jpg" width="832" height="466" aria-label="Supplementary video: a CAD animation of the end-effector coming apart and its labelled parts; the end-effector holding a 20 N force while rolling along flat, wavy, sloped and vertical surfaces; and grinding with a 5 N target on horizontal, inclined and vertical workpieces, each with a live force plot."><source src="video-demo.mp4" type="video/mp4">Your browser does not support embedded video. <a href="video-demo.mp4">Download the video</a>.</video>
+        <div class="chapters" aria-label="Chapters">
+          <button type="button" data-target="video-demo" data-time="0"><span>0:00</span>Design</button>
+          <button type="button" data-target="video-demo" data-time="22.3"><span>0:22</span>Flat surface</button>
+          <button type="button" data-target="video-demo" data-time="36.9"><span>0:37</span>Wavy surface</button>
+          <button type="button" data-target="video-demo" data-time="51.6"><span>0:52</span>Slope</button>
+          <button type="button" data-target="video-demo" data-time="67.7"><span>1:08</span>Vertical surface</button>
+          <button type="button" data-target="video-demo" data-time="82.6"><span>1:23</span>Grinding, horizontal</button>
+          <button type="button" data-target="video-demo" data-time="98.6"><span>1:38</span>Grinding, inclined</button>
+          <button type="button" data-target="video-demo" data-time="110.5"><span>1:50</span>Grinding, vertical</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section related" id="related">
+      <div class="wide">
+        <p class="eyebrow">Related projects</p>
+        <ul class="related-list">
+          <li><a href="https://elastic-beam-sensing.github.io/"><b>Contact sensing with elastic beams</b><span>A curved carbon-fiber beam with eight strain gauges feels where, and how hard, it is touched · IJRR 2026</span></a></li>
+          <li><a href="https://compliant-fingertip.github.io/"><b>Sensorized compliant fingertip</b><span>Four curved beams with printed strain gauges sense forces, torques and slip · IDETC 2025</span></a></li>
+          <li><a href="https://variable-stiffness-gripper.github.io/"><b>Variable-stiffness gripper</b><span>Curved elastic beams in flexible parallelograms set a gripper's stiffness · T-MECH 2026</span></a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a href="#paper">Paper &amp; authors ↑</a>
+  </footer>
+  <dialog id="lightbox" aria-label="Enlarged figure"><button class="close-lightbox" type="button" aria-label="Close enlarged figure">×</button><img alt=""></dialog>
+<script>
+// Shared behavior for Siyue Yao's project pages: looping clips that play only while on screen, tabs,
+// chapter buttons, links that open <details>, BibTeX copy, the figure lightbox and section highlighting.
+// No dependencies. Without JavaScript every tab panel stays visible and clips keep native controls.
+(() => {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  /* Looping clips */
+  const loops = [...document.querySelectorAll("video.loop")];
+  const manualPause = new WeakSet();
+  const inView = new WeakSet();
+  const buttonFor = (video) => document.querySelector(`[data-video="${video.id}"]`);
+  function update(video) {
+    const button = buttonFor(video);
+    if (!button) return;
+    button.textContent = video.paused ? "Play clip" : "Pause clip";
+    button.setAttribute("aria-pressed", String(!video.paused));
+  }
+  function play(video) {
+    const promise = video.play();
+    if (promise) promise.catch(() => update(video));
+  }
+  const mayAutoplay = (video) => inView.has(video) && !manualPause.has(video) && !reduced.matches && !document.hidden;
+  loops.forEach((video) => {
+    video.muted = true;
+    video.removeAttribute("controls");
+    video.addEventListener("play", () => update(video));
+    video.addEventListener("pause", () => update(video));
+    update(video);
+    const button = buttonFor(video);
+    if (button) {
+      button.addEventListener("click", () => {
+        if (video.paused) { manualPause.delete(video); play(video); }
+        else { manualPause.add(video); video.pause(); }
+      });
+    }
+  });
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => entries.forEach(({ target, isIntersecting }) => {
+      if (isIntersecting) { inView.add(target); if (mayAutoplay(target)) play(target); }
+      else { inView.delete(target); target.pause(); }
+    }), { threshold: 0.3 });
+    loops.forEach((video) => observer.observe(video));
+  }
+  const resync = () => loops.forEach((video) => {
+    if (mayAutoplay(video)) play(video);
+    else if (document.hidden || reduced.matches) video.pause();
+  });
+  document.addEventListener("visibilitychange", resync);
+  reduced.addEventListener("change", resync);
+
+  /* Full videos: only one plays at a time */
+  const fullVideos = [...document.querySelectorAll("video:not(.loop)")];
+  fullVideos.forEach((video) => video.addEventListener("play", () => {
+    fullVideos.forEach((other) => { if (other !== video) other.pause(); });
+  }));
+
+  /* Tabs */
+  document.querySelectorAll('[role="tablist"]').forEach((list) => {
+    const tabs = [...list.querySelectorAll('[role="tab"]')];
+    if (!tabs.length) return;
+    const panelOf = (tab) => document.getElementById(tab.getAttribute("aria-controls"));
+    function select(selected, moveFocus = false) {
+      tabs.forEach((tab) => {
+        const active = tab === selected;
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+        const panel = panelOf(tab);
+        if (!panel) return;
+        panel.hidden = !active;
+        if (!active) panel.querySelectorAll("video").forEach((video) => video.pause());
+      });
+      if (moveFocus) selected.focus();
+    }
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => select(tab));
+      tab.addEventListener("keydown", (event) => {
+        const target = { ArrowRight: (index + 1) % tabs.length, ArrowLeft: (index + tabs.length - 1) % tabs.length, Home: 0, End: tabs.length - 1 }[event.key];
+        if (target === undefined) return;
+        event.preventDefault();
+        select(tabs[target], true);
+      });
+    });
+    select(tabs.find((tab) => tab.getAttribute("aria-selected") === "true") || tabs[0]);
+  });
+
+  /* Chapter buttons: <button data-target="video-id" data-time="12.4"> */
+  document.querySelectorAll("button[data-time][data-target]").forEach((button) => button.addEventListener("click", () => {
+    const video = document.getElementById(button.dataset.target);
+    if (!video) return;
+    const seek = () => { video.currentTime = Number(button.dataset.time); play(video); };
+    if (video.readyState >= 1) seek();
+    else {
+      video.addEventListener("loadedmetadata", seek, { once: true });
+      video.preload = "metadata";
+      video.load();
+    }
+    video.scrollIntoView({ block: "center", behavior: reduced.matches ? "instant" : "smooth" });
+  }));
+
+  /* Links to a <details> open it (e.g. the BibTeX button) */
+  const openDetails = (hash) => {
+    if (!hash || hash.length < 2) return;
+    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    if (target instanceof HTMLDetailsElement) target.open = true;
+  };
+  document.querySelectorAll('a[href^="#"]').forEach((link) => link.addEventListener("click", () => openDetails(link.hash)));
+  openDetails(window.location.hash);
+
+  /* BibTeX copy */
+  const copy = document.getElementById("copy-bibtex");
+  const bibtex = document.getElementById("bibtex");
+  const status = document.getElementById("citation-status");
+  if (copy && bibtex && status) {
+    copy.hidden = false;
+    copy.addEventListener("click", async () => {
+      status.textContent = "";
+      try {
+        if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error("Clipboard unavailable");
+        await navigator.clipboard.writeText(`${bibtex.textContent.trim()}\n`);
+        status.textContent = "BibTeX copied to clipboard.";
+      } catch {
+        status.textContent = "Could not copy automatically. Select the BibTeX below and copy it, or download the .bib file.";
+      }
+    });
+  }
+
+  /* Figure lightbox */
+  const lightbox = document.getElementById("lightbox");
+  if (lightbox && typeof lightbox.showModal === "function") {
+    const image = lightbox.querySelector("img");
+    document.querySelectorAll("a.zoom").forEach((link) => link.addEventListener("click", (event) => {
+      event.preventDefault();
+      image.src = link.href;
+      image.alt = link.querySelector("img")?.alt || "";
+      lightbox.showModal();
+      document.body.style.overflow = "hidden";
+    }));
+    lightbox.querySelector("button").addEventListener("click", () => lightbox.close());
+    lightbox.addEventListener("click", (event) => { if (event.target === lightbox) lightbox.close(); });
+    lightbox.addEventListener("close", () => { document.body.style.overflow = ""; });
+  }
+
+  /* Section nav highlight */
+  const navLinks = [...document.querySelectorAll(".section-nav a")];
+  if (navLinks.length && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      navLinks.forEach((link) => link.classList.toggle("active", link.hash === `#${entry.target.id}`));
+    }), { rootMargin: "-20% 0px -65% 0px" });
+    navLinks.forEach((link) => {
+      const section = document.getElementById(decodeURIComponent(link.hash.slice(1)));
+      if (section) observer.observe(section);
+    });
+  }
+})();
+</script>
+</body>
+</html>
